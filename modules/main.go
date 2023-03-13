@@ -1,3 +1,20 @@
+package modules
+
+import (
+	"context"
+	"crypto/ecdsa"
+	"fmt"
+	"log"
+	"math/big"
+
+	Models "github.com/spicypumpkin666/eth-go/models"
+	"github.com/ethereum/go-ethereum/common"
+	"github.com/ethereum/go-ethereum/core/types"
+	"github.com/ethereum/go-ethereum/crypto"
+	"github.com/ethereum/go-ethereum/ethclient"
+)
+
+
 func GetLatestBlock(client ethclient.Client) *Models.Block {
     // add recover func from panics to prevent our api from crashing w/ unexpected error
     defer func() {
@@ -63,16 +80,6 @@ func GetTxByHash(client ethclient.Client, hash common.hash) *Models.Transaction 
     }
 }
 
-// GetAddressBalance returns given address balance
-func GetAddressBalance(client ethclient.Client, address string) (string, error) {
-    account := common.HexToAddress(address)
-    balance, err := client.BalanceAt(context.Background(), account, nil)
-    if err != nil {
-        return "0", err
-    }
-    return balance.String(), nil
-}
-
 func TransferEth(client ethclient.Client, privKey string, to string, amount int64) (string, error) {
     defer func() {
             if err := recover(); err != nil {
@@ -98,15 +105,48 @@ func TransferEth(client ethclient.Client, privKey string, to string, amount int6
     nonce, err := client.PendingNonceAt(context.Background(), fromAddress)
     if err != nil {
             return "", err
-        }
+    }
 
     value := big.NewInt(amount) // in wei (1 eth)
     gasLimit := uint64(21000) // in units
     gasPrice, err := client.SuggestGasPrice(context.Background())
     if err != nil {
             return "", err
-        }
+    }
 
+    // who gets the eth?
+    toAddress := common.HexToAddress(to)
+    var data []byte
 
+    // Create transaction payload
+    tx := types.NewTransaction(nonce, toAddress, value, gasLimit, gasPrice, data)
 
+    chainID, err := client.NetworkID(context.Background())
+    if err != nil {
+        return "", err
+    }
+
+    // sign txn using sender's private key
+    signedTx, err := types.SignTx(tx, types.NewEIP155Signer(chainID), privateKey)
+    if err != nil {
+        return "", err
+    }
+
+    // Broadcast txn to network
+    err = client.SendTransaction(context.Background(), signedTx)
+    if err != nil {
+            return "", err
+    }
+
+    return signedTx.Hash().String(), nil
+}
+
+// GetAddressBalance returns given address balance
+func GetAddressBalance(client ethclient.Client, address string) (string, error) {
+    account := common.HexToAddress(address)
+    balance, err := client.BalanceAt(context.Background(), account, nil)
+    if err != nil {
+        return "0", err
+    }
+    return balance.String(), nil
 }
