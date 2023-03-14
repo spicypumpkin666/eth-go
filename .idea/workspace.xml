@@ -5,9 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ff8311a6-b279-4832-b052-12cc1779aff3" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/handler/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/handler/main.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/main.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/modules/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/modules/main.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -30,7 +33,7 @@
   "keyToString": {
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "last_opened_file_path": "/Users/kellieenglish/go/src/eth-go",
+    "last_opened_file_path": "/Users/kellieenglish/go/src/github.com/spicypumpkin666/eth-go",
     "settings.editor.selected.configurable": "preferences.pluginManager"
   }
 }]]></component>

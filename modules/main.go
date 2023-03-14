@@ -34,20 +34,20 @@ func GetLatestBlock(client ethclient.Client) *Models.Block {
 
     // Build the response to our model
     _block := &Models.Block{
-        BlockByNumber:          block.Number().Int64(),
+        BlockNumber:            block.Number().Int64(),
         Timestamp:              block.Time(),
         Difficulty:             block.Difficulty().Uint64(),
         Hash:                   block.Hash().String(),
-        TransactionsCount:      len(block.Transactions(),
+        TransactionsCount:      len(block.Transactions()),
         Transactions:           []Models.Transaction{},
     }
 
     for _, tx := range block.Transactions() {
-        _block.Transactions = append(_block.Transactions, Models,Transaction{
-                Hash:       tx.Hash().String,
-                Value:      tx.Value().String,
+        _block.Transactions = append(_block.Transactions, Models.Transaction{
+                Hash:       tx.Hash().String(),
+                Value:      tx.Value().String(),
                 Gas:        tx.Gas(),
-                GasPrice:   tx.GasPrice(),
+                GasPrice:   tx.GasPrice().Uint64(),
                 Nonce:      tx.Nonce(),
                 To:         tx.To().String(),
         })
@@ -57,7 +57,7 @@ func GetLatestBlock(client ethclient.Client) *Models.Block {
 }
 
 // GetTxByHash by a given hash
-func GetTxByHash(client ethclient.Client, hash common.hash) *Models.Transaction {
+func GetTxByHash(client ethclient.Client, hash common.Hash) *Models.Transaction {
     defer func() {
             if err := recover(); err != nil {
                 fmt.Println(err)
@@ -74,7 +74,7 @@ func GetTxByHash(client ethclient.Client, hash common.hash) *Models.Transaction 
         Value:      tx.Value().String(),
         Gas:        tx.Gas(),
         GasPrice:   tx.GasPrice().Uint64(),
-        To:         tx.To().String();
+        To:         tx.To().String(),
         Pending:    pending,
         Nonce:      tx.Nonce(),
     }
